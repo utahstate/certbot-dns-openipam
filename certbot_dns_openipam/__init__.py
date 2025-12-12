@@ -7,12 +7,12 @@ Named Arguments
 ---------------
 
 ========================================  =====================================
-``--dns-openipam-credentials``          Cloudflare credentials_ INI file.
+``--dns-openipam-credentials``          OpenIPAM credentials_ INI file.
                                           (Required)
 ``--dns-openipam-propagation-seconds``  The number of seconds to wait for DNS
                                           to propagate before asking the ACME
                                           server to verify the DNS record.
-                                          (Default: 10)
+                                          (Default: 180)
 ========================================  =====================================
 
 

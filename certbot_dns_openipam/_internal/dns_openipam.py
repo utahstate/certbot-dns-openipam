@@ -1,6 +1,7 @@
 """DNS Authenticator for OpenIPAM."""
 import logging
 import requests
+import json
 from typing import Any
 from typing import Callable
 from typing import Dict
@@ -32,7 +33,7 @@ class Authenticator(dns_common.DNSAuthenticator):
 
     @classmethod
     def add_parser_arguments(cls, add: Callable[..., None],
-                             default_propagation_seconds: int = 10) -> None:
+                             default_propagation_seconds: int = 180) -> None:
         super().add_parser_arguments(add, default_propagation_seconds)
         add('credentials', help='OpenIPAM credentials INI file.')
 
@@ -104,8 +105,7 @@ class _OpenIPAMClient:
             print(f"Error: {e}")
             print("Unable to create DNS record automatically.")
 
-        record_id = res['results']['id']
-        logger.debug('Successfully added TXT record with record_id: %s', record_id)
+        logger.debug('Successfully added TXT record: %s', record_name)
 
     def del_txt_record(self, domain: str, record_name: str, record_content: str) -> None:
         """
@@ -132,7 +132,6 @@ class _OpenIPAMClient:
                 )
                 if res.status_code != 204:
                     raise Exception(f"Failed to delete DNS record: {res.text}")
-                    record_id = res['results']['id']
                 logger.debug('Successfully deleted TXT record with record_id: %s', record_id)
             except Exception as e:
                 print(f"Error: {e}")
@@ -160,7 +159,7 @@ class _OpenIPAMClient:
             )
             if res.status_code != 200:
                 raise Exception(f"Failed to find DNS record: {res.text}")
-            records = res
+            records = json.loads(res.content)
         except Exception as e:
             print(f"Error: {e}")
             records = []
@@ -168,6 +167,6 @@ class _OpenIPAMClient:
         if records:
             # Cleanup is returning the system to the state we found it. If, for some reason,
             # there are multiple matching records, we only delete one because we only added one.
-            return records[0]['results']['id']
+            return records['results'][0]['id']
         logger.debug('Unable to find TXT record.')
         return None
