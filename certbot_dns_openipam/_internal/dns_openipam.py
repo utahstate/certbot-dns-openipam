@@ -140,9 +140,7 @@ class _OpenIPAMClient:
         """
         Find the record_id for a TXT record with the given name and content.
 
-        :param str zone_id: The zone_id which contains the record.
         :param str record_name: The record name (typically beginning with '_acme-challenge.').
-        :param str record_content: The record content (typically the challenge validation).
         :returns: The record_id, if found.
         :rtype: str
         """
