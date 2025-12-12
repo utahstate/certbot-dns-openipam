@@ -14,4 +14,6 @@ You'll need an openipam api key saved in an openipam.ini file.
 
 Run the plugin like this:
 
+```
 certbot certonly --authenticator dns-openipam --dns-openipam-credentials=secrets/openipam.ini --dns-openipam-propagation-seconds=180 -d example.usu.edu
+```
