@@ -84,7 +84,6 @@ class _OpenIPAMClient:
         :param str record_name: The record name (typically beginning with '_acme-challenge.').
         :param str record_content: The record content (typically the challenge validation).
         :param int record_ttl: The record TTL (number of seconds that the record may be cached).
-        :raises certbot.errors.PluginError: if an error occurs communicating with the Cloudflare API
         """
         try:
             data = {'dns_type': 'TXT',
@@ -116,9 +115,7 @@ class _OpenIPAMClient:
 
         Failures are logged, but not raised.
 
-        :param str domain: The domain to use to look up the Cloudflare zone.
         :param str record_name: The record name (typically beginning with '_acme-challenge.').
-        :param str record_content: The record content (typically the challenge validation).
         """
         record_id = self._find_txt_record_id(record_name)
         if record_id:
