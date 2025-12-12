@@ -72,7 +72,7 @@ class _OpenIPAMClient:
     Encapsulates all communication with the OpenIPAM API.
     """
 
-    def __init__(self, api_key: str) -> None:
+    def __init__(self, email: Optional[str],api_key: str) -> None:
         self.api_key = api_key
 
     def add_txt_record(self, domain: str, record_name: str, record_content: str,
