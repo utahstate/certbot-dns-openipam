@@ -12,6 +12,10 @@ And then install this plugin with pip:
 
 You'll need an openipam api key saved in an openipam.ini file.
 
+```
+dns_openipam_api_token=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
 Run the plugin like this:
 
 ```
