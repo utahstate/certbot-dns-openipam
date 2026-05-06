@@ -29,3 +29,21 @@ Make sure to schedule a cron job to do the certificate renewals.  Installing cer
 ```
 echo "0 0,12 * * * root /opt/certbot/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && sudo certbot renew -q" | sudo tee -a /etc/crontab > /dev/null
 ```
+When the plugin has run successfully, certbot will show you where your certs are located and you can configure your webserver to use it.
+
+Finally, you need to make sure the service will automatically start using the new cert after it is renewed. Here are some examples of how to accomplish this:
+
+1. Put a script in the /etc/letsencrypt/renewal-hooks/post/ directory that will take care of whatever needs to be done for you. For example, here is a script to restart apache:
+
+```
+#!/bin/bash
+/usr/sbin/service apache2 restart
+```
+
+Put that in a file in the renewal-hook/post directory and make sure it is executable.
+
+2. Add a line like this into /etc/letsencrypt/cli.ini or the renewal configuration file in /etc/letsencrypt/renewal/<hostname>.conf (this will reload an nginx server)
+
+```
+deploy-hook = service nginx reload
+```
