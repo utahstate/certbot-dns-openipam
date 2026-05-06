@@ -25,10 +25,7 @@ For multiple domain names, just append additional -d parameters.
 ```
 certbot certonly --authenticator dns-openipam --dns-openipam-credentials=secrets/openipam.ini --dns-openipam-propagation-seconds=180 -d example.usu.edu -d example2.usu.edu -d example3.usu.edu
 ```
-Make sure to schedule a cron job to do the certificate renewals.  Installing certbot with pip does not install a cron or a systemd timer.
-```
-echo "0 0,12 * * * root /opt/certbot/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && sudo certbot renew -q" | sudo tee -a /etc/crontab > /dev/null
-```
+
 When the plugin has run successfully, certbot will show you where your certs are located and you can configure your webserver to use it.
 
 Finally, you need to make sure the service will automatically start using the new cert after it is renewed. Here are some examples of how to accomplish this:
@@ -46,4 +43,8 @@ Put that in a file in the renewal-hook/post directory and make sure it is execut
 
 ```
 deploy-hook = service nginx reload
+```
+Make sure to schedule a cron job to do the certificate renewals.  Installing certbot with pip does not install a cron or a systemd timer.
+```
+echo "0 0,12 * * * root /opt/certbot/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && sudo certbot renew -q" | sudo tee -a /etc/crontab > /dev/null
 ```
